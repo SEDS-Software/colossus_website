@@ -4,12 +4,6 @@ import React from 'react';
 
 export default class Thrust extends React.Component {
 
-    //this one sets done once
-
-    constructor(props) {
-        super(props);
-    }
-
     componentDidUpdate(){
         if(!this.props.doneOnce){
             let ctx = document.getElementById("myChart");

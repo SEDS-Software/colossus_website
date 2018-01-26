@@ -4,7 +4,6 @@ export default function updateData(app) {
 
     http.get('http://127.0.0.1:5000/', (res) => {
         const { statusCode } = res;
-        const contentType = res.headers['content-type'];
 
         let error;
         if (statusCode !== 200) {

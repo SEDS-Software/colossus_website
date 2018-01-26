@@ -1,36 +1,20 @@
 {
-  "name": "bynary_payment_website",
-  "version": "1.0.0",
-  "main": "index.js",
-  "repository": "https://github.com/cyficowley/BynaryPayments",
-  "author": "cyrus and surya",
-  "license": "none",
-  "scripts": {
-    "start": "webpack-dev-server"
-  },
+  "name": "colossus_website_2",
+  "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
   "dependencies": {
     "chart.js": "^2.7.1",
     "css-loader": "^0.28.7",
-    "extract-text-webpack-plugin": "^3.0.2",
-    "file-loader": "^1.1.5",
-    "html-webpack-plugin": "^2.30.1",
-    "node-sass": "^4.6.1",
-    "path": "^0.12.7",
     "react": "^16.1.1",
     "react-bootstrap": "^0.31.5",
     "react-dom": "^16.1.1",
-    "react-dropzone": "^4.2.3",
-    "sass-loader": "^6.0.6",
-    "style-loader": "^0.19.0",
-    "url-loader": "^0.6.2",
-    "webpack": "^3.8.1",
-    "webpack-dev-server": "^2.9.4"
-  },
-  "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-preset-es2016": "^6.24.1",
-    "babel-preset-react": "^6.24.1"
+    "react-scripts": "^1.1.0",
+    "style-loader": "^0.19.0"
   }
 }
