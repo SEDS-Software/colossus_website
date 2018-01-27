@@ -9,10 +9,25 @@ export default class App extends React.Component {
     constructor(props) {
         super(props);
 
+        this.warningMsgs  = {
+            "W01": "Over pressurization: Propellant",
+            "W02": "Over pressurization: Oxidizer",
+            "W03": "Under pressurization: Propellant",
+            "W04": "Under pressurization: Oxidizer",
+            "W05": "low K bottle pressure / replace K bottle",
+            "W06": "LOX temperature too high at T-OX-390",
+            "W07": "LOX temperature too high at T-OX-391",
+            "W08": "LOX temperature too high at T-OX-393"
+        };
+        this.errorMsgs = {
+            "E01": "Propellant over pressurization",
+            "E02": "Oxidizer over pressurization"
+        };
+
         this.state = {
             doneOnce: false,
             updateRate: 2000,
-            ecSteps: ["Count Down", "E-match Ignition", "PBV 253, 353 OPEN (wait for limit switch confirmation)", "Firing is happening now. Wait a couple of seconds", "Check for load cell on the engine reaches 0", "Check load cell on both tanks reaches 0", "Wait 1 second", "PBV 251, 351 OPEN (wait for limit switch confirmation)", "PBV 250, 350, 253, 353 CLOSE (wait for limit switch confirmation)", "PBV 150, 151 OPEN (wait for limit switch confirmation)", "Waiting"]
+            ecSteps: ["Count Down", "E-match Ignition", "PBV 253, 353 OPEN (wait for limit switch confirmation)", "Firing is happening now. Wait a couple of seconds", "Check for load cell on the engine reaches 0", "Check load cell on both tanks reaches 0", "Wait 1 second", "PBV 251, 351 OPEN (wait for limit switch confirmation)", "PBV 250, 350, 253, 353 CLOSE (wait for limit switch confirmation)", "PBV 150, 151 OPEN (wait for limit switch confirmation)", "Waiting"],
         };
 
         this.updateValues = this.updateValues.bind(this);
@@ -29,7 +44,6 @@ export default class App extends React.Component {
         );
     }
 
-    //I need make this more efficient
     DataDump(props) {
         let arr = [];
         Object.keys(props.dump).map((k, index) => {
@@ -46,6 +60,9 @@ export default class App extends React.Component {
     Loaded(props) {
         let dataDump = {};
 
+        let warnings = [];
+        let errors = [];
+
         for (let k in this.state) {
             if (this.state.hasOwnProperty(k)) {
                 let val = this.state[k];
@@ -57,12 +74,30 @@ export default class App extends React.Component {
                         dataDump[k] = "opened"
                     }
                 }
+                else if(k.startsWith("W")){
+                    if("1" === val){
+                        warnings.push(<p>{k}: {this.warningMsgs[k]}</p>);
+                    }
+                }
+                else if(k.startsWith("E")){
+                    console.log(k + "   " + val);
+                    console.log("1" === val);
+                    if("1" === val){
+                        errors.push(<p>{k}: {this.errorMsgs[k]}</p>);
+                    }
+                }
                 else if(k === "ecSteps" || k === "doneOnce" || k === "updateRate" || k === "SeqStage"){}
                 else {
                     dataDump[k] = val;
                 }
 
             }
+        }
+        if(warnings.length === 0){
+            warnings.push(<p>No Warnings</p>)
+        }
+        if(errors.length === 0){
+            errors.push(<p>No Errors</p>)
         }
 
         let dump = [{},{},{}];
@@ -81,6 +116,16 @@ export default class App extends React.Component {
                 <div className="col-xs-12">
                     <h3>Current Execution Cue Step:</h3><h3
                     style={{color: "red"}}>{this.state.SeqStage}. {this.state.ecSteps[this.state.SeqStage]}</h3>
+                </div>
+                <div className="col-md-6 col-xs-12">
+                    <h3>WARNINGS:</h3><h4
+                    style={{color: "orange"}}>
+                    {warnings}</h4>
+                </div>
+                <div className="col-md-6 col-xs-12">
+                    <h3>ERRORS:</h3><h4
+                    style={{color: "orange"}}>
+                    {errors}</h4>
                 </div>
                 <div className="col-md-8">
                     <h3>Thrust over past minute</h3>
