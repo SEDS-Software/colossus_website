@@ -17,4 +17,4 @@ Built by cyrus cowley with create react app and chart.js
 3. yarn install
 4. yarn build
 5. cd build
-6. yarn serve
+6. yarn serve -s
