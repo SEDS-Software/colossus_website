@@ -14,7 +14,7 @@ Built by cyrus cowley with create react app and chart.js
 ##### To run production server: 
 1. clone the repository 
 2. open the website directory
-3. yarn install
-4. yarn build
+3. npm install (or something like this)
+4. npm run build
 5. cd build
-6. yarn serve -s
+6. serve -s
