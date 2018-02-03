@@ -2,6 +2,7 @@ import React from 'react';
 import updateData from "../utils/UpdateValues"
 import Thrust from "./Thrust.jsx"
 import BarGraphs from "./BarGraphs.jsx"
+import Dropdown from "./Dropdown";
 
 
 export default class App extends React.Component {
@@ -63,16 +64,27 @@ export default class App extends React.Component {
         let warnings = [];
         let errors = [];
 
+        let valves = {};
+        let thermocouples = {};
+        let pressureTranducer = {};
+
+
         for (let k in this.state) {
             if (this.state.hasOwnProperty(k)) {
                 let val = this.state[k];
                 if (k.startsWith('Val')) {
                     if (val === "0") {
-                        dataDump[k] = "closed"
+                        valves[k.substr(3)] = "closed"
                     }
                     else {
-                        dataDump[k] = "opened"
+                        valves[k.substr(3)] = "opened"
                     }
+                }
+                else if(k.startsWith("PT")){
+                    pressureTranducer[k.substr(2)] = val;
+                }
+                else if(k.startsWith("T") && k.length === 4){
+                    thermocouples[k.substr(1)] = val;
                 }
                 else if(k.startsWith("W")){
                     if("1" === val){
@@ -126,6 +138,17 @@ export default class App extends React.Component {
                     <h3>ERRORS:</h3><h4
                     style={{color: "orange"}}>
                     {errors}</h4>
+                </div>
+                <div className="col-xs-12" style={{paddingTop:"30px", paddingBottom:"30px"}}>
+                    <div className="col-md-4 col-xs-12">
+                        <Dropdown id="valve" name="Valves" items={valves}/>
+                    </div>
+                    <div className="col-md-4 col-xs-12">
+                        <Dropdown id="thermo" name="Thermocouples" items={thermocouples}/>
+                    </div>
+                    <div className="col-md-4 col-xs-12">
+                        <Dropdown id="pressure" name="Pressure Transducer" items={pressureTranducer}/>
+                    </div>
                 </div>
                 <div className="col-md-8">
                     <h3>Thrust over past minute</h3>
