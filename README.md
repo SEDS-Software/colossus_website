@@ -18,3 +18,9 @@ Built by cyrus cowley with create react app and chart.js
 4. npm run build
 5. cd build
 6. serve -s
+
+##### Configure
+If the ip address of the flask server ever changes
+1. go into website/src/utils
+2. on line 5 change the ip address to that of the flask server
+3. rebuild and run
