@@ -9,8 +9,15 @@ export default class Dropdown extends React.Component {
 
         if(this.props.items){
             Object.keys(this.props.items).map((k, index) => {
+                let theClass = "";
+                if(this.props.items[k] === "opened"){
+                    theClass = "green";
+                }
+                else if(this.props.items[k] === "closed"){
+                    theClass = "red";
+                }
                 arr.push(
-                    <a href="#" key={index}>
+                    <a href="#" className={theClass} key={index}>
                         {k}: {this.props.items[k]}
                     </a>
                 );
