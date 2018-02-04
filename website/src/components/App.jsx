@@ -79,7 +79,7 @@ export default class App extends React.Component {
                     if (val === "0") {
                         valves[k.substr(3)] = "closed"
                     }
-                    else {
+                    else if(val === "1") {
                         valves[k.substr(3)] = "opened"
                     }
                 }
