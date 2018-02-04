@@ -26,6 +26,7 @@ export default class App extends React.Component {
         };
 
         this.state = {
+            autoScroll:true,
             doneOnce: false,
             updateRate: 2000,
             ecSteps: ["Count Down", "E-match Ignition", "PBV 253, 353 OPEN (wait for limit switch confirmation)", "Firing is happening now. Wait a couple of seconds", "Check for load cell on the engine reaches 0", "Check load cell on both tanks reaches 0", "Wait 1 second", "PBV 251, 351 OPEN (wait for limit switch confirmation)", "PBV 250, 350, 253, 353 CLOSE (wait for limit switch confirmation)", "PBV 150, 151 OPEN (wait for limit switch confirmation)", "Waiting"],
@@ -36,6 +37,8 @@ export default class App extends React.Component {
         setInterval(() => this.updateValues(), this.state.updateRate);
 
         this.Loaded = this.Loaded.bind(this);
+        App.autoScroll = App.autoScroll.bind(this);
+        this.switchAutoScroll = this.switchAutoScroll.bind(this);
         this.DataDump = this.DataDump.bind(this);
     }
 
@@ -96,7 +99,7 @@ export default class App extends React.Component {
                         errors.push(<p key={k}>{k}: {this.errorMsgs[k]}</p>);
                     }
                 }
-                else if(k === "ecSteps" || k === "doneOnce" || k === "updateRate" || k === "SeqStage"){}
+                else if(k === "ecSteps" || k === "doneOnce" || k === "updateRate" || k === "SeqStage" || k === "autoScroll"){}
                 else {
                     dataDump[k] = val;
                 }
@@ -138,15 +141,15 @@ export default class App extends React.Component {
 
         return (
             <div>
-                <div className="col-xs-12">
+                <div style={{textAlign:"center"}} className="col-xs-12">
                     <h3>Current Execution Cue Step:</h3>
-                    <div id="scollBox" style={{height:"140px", overflow:"scroll", border:"1px solid #C8C8C8"}}>
+                    <div id="scrollBox">
                         {sequence}
                     </div>
+                    <button className="dropbtn" style={{width:"auto", marginTop:"9px"}} onClick={this.switchAutoScroll}>{this.state.autoScroll ? "Turn off AutoScroll" : "Turn on AutoScroll"}</button>
                 </div>
                 <div className="col-md-6 col-xs-12">
-                    <h3>WARNINGS:</h3><h4
-                    style={{color: "orange"}}>
+                    <h3>WARNINGS:</h3><h4 style={{color: "orange"}}>
                     {warnings}</h4>
                 </div>
                 <div className="col-md-6 col-xs-12">
@@ -230,19 +233,28 @@ export default class App extends React.Component {
 
 
     componentDidUpdate(prevProps, prevState){
-        let indexSelected = parseInt(this.state.SeqStage);
-        console.log(indexSelected);
-        let fromTop = indexSelected * 48;
-        if(indexSelected > 0){
-            fromTop = fromTop - 36;
+        if(this.state.autoScroll){
+            App.autoScroll();
         }
+    }
 
-        document.getElementById("scollBox").scrollTo(0, fromTop);
+    static autoScroll(){
+        let scrollBox = document.getElementById("scrollBox");
+        let selectedThing = document.getElementById("selectedThing");
+
+        let halfHeight = parseInt(window.getComputedStyle(scrollBox).height.substr(0, window.getComputedStyle(scrollBox).length - 2))/2;
+        let fromTop = selectedThing.offsetTop;
+        scrollBox.scrollTo(0, fromTop - halfHeight - 45);
     }
 
 
     updateValues(){
         updateData(this);
+    }
+
+    switchAutoScroll(){
+        this.setState({autoScroll:!this.state.autoScroll});
+        App.autoScroll();
     }
 }
 

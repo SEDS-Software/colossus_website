@@ -56,3 +56,14 @@ h2, h3, h4{
 .dropdown:hover .dropbtn {
   background-color: #333;
 }
+
+#scrollBox{
+  height:140px;
+  overflow:scroll;
+  border:1px solid #C8C8C8;
+}
+@media screen and (max-width: 576px){
+  #scrollBox{
+    height:240px;
+  }
+}
