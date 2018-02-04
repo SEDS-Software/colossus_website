@@ -29,12 +29,10 @@ export default class Dropdown extends React.Component {
     }
     componentDidMount(){
         document.getElementById(this.props.id).onfocus = () => {
-            console.log("focused");
             document.getElementById(this.props.id + "content").style.display = "block"
         };
 
         document.addEventListener("focusout", () => {
-            console.log("lmaoefwaoefwija");
             document.getElementById(this.props.id + "content").style.display = "none"
         });
     }

@@ -88,14 +88,12 @@ export default class App extends React.Component {
                 }
                 else if(k.startsWith("W")){
                     if("1" === val){
-                        warnings.push(<p>{k}: {this.warningMsgs[k]}</p>);
+                        warnings.push(<p key={k}>{k}: {this.warningMsgs[k]}</p>);
                     }
                 }
                 else if(k.startsWith("E")){
-                    console.log(k + "   " + val);
-                    console.log("1" === val);
                     if("1" === val){
-                        errors.push(<p>{k}: {this.errorMsgs[k]}</p>);
+                        errors.push(<p key={k}>{k}: {this.errorMsgs[k]}</p>);
                     }
                 }
                 else if(k === "ecSteps" || k === "doneOnce" || k === "updateRate" || k === "SeqStage"){}
@@ -106,10 +104,10 @@ export default class App extends React.Component {
             }
         }
         if(warnings.length === 0){
-            warnings.push(<p>No Warnings</p>)
+            warnings.push(<p key={0}>No Warnings</p>)
         }
         if(errors.length === 0){
-            errors.push(<p>No Errors</p>)
+            errors.push(<p key={0}>No Errors</p>)
         }
 
         let dump = [{},{},{}];
@@ -123,11 +121,28 @@ export default class App extends React.Component {
 
         let DataDump = this.DataDump;
 
+        let sequence = [];
+
+        for(let i = 0; i < this.state.ecSteps.length; i ++){
+            if(String(i) === String(this.state.SeqStage)){
+                sequence.push(<h3 id="selectedThing" key={i} style={{color: "red"}}>{i}. {this.state.ecSteps[i]}</h3>);
+            }
+            else{
+                sequence.push(<h3 key={i} style={{color: "black"}}>{i}. {this.state.ecSteps[i]}</h3>);
+            }
+
+
+        }
+
+
+
         return (
             <div>
                 <div className="col-xs-12">
-                    <h3>Current Execution Cue Step:</h3><h3
-                    style={{color: "red"}}>{this.state.SeqStage}. {this.state.ecSteps[this.state.SeqStage]}</h3>
+                    <h3>Current Execution Cue Step:</h3>
+                    <div id="scollBox" style={{height:"140px", overflow:"scroll", border:"1px solid #C8C8C8"}}>
+                        {sequence}
+                    </div>
                 </div>
                 <div className="col-md-6 col-xs-12">
                     <h3>WARNINGS:</h3><h4
@@ -150,12 +165,12 @@ export default class App extends React.Component {
                         <Dropdown id="pressure" name="Pressure Transducer" items={pressureTranducer}/>
                     </div>
                 </div>
-                <div className="col-md-8">
+                <div className="col-md-8 col-xs-12">
                     <h3>Thrust over past minute</h3>
                     <Thrust doneOnce={this.state.doneOnce} obj={this} updateRate={this.state.updateRate}
                             newData={this.state.Thrust}/>
                 </div>
-                <div className="col-md-4">
+                <div className="col-md-4 col-cs-12">
                     <BarGraphs doneOnce={this.state.doneOnce}
                                tempData={[this.state.Tank_Temp_1, this.state.Tank_Temp_2]}
                                fuelData={[this.state.Tank_Fuel_1, this.state.Tank_Fuel_2]}/>
@@ -198,7 +213,13 @@ export default class App extends React.Component {
         return (
             <div className="main">
                 <div className="container">
-                    <h2>Colossus Data Viewer</h2>
+                    <div className="col-xs-12" style={{paddingTop:"15px"}}>
+                        <div className="col-md-6 col-md-offset-3 col-xs-10 col-xs-offset-1"><img style={{width:"100%", maxWidth:"100%"}} src="/colossus.png"/></div>
+                        <div className="col-xs-12">
+                            <h2>Data Viewer</h2>
+                            <hr style={{width:"100%", borderTopColor:"#C8C8C8"}}/>
+                        </div>
+                    </div>
                     <Body/>
                 </div>
             </div>
@@ -206,6 +227,19 @@ export default class App extends React.Component {
 
         );
     }
+
+
+    componentDidUpdate(prevProps, prevState){
+        let indexSelected = parseInt(this.state.SeqStage);
+        console.log(indexSelected);
+        let fromTop = indexSelected * 48;
+        if(indexSelected > 0){
+            fromTop = fromTop - 36;
+        }
+
+        document.getElementById("scollBox").scrollTo(0, fromTop);
+    }
+
 
     updateValues(){
         updateData(this);

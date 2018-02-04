@@ -2,7 +2,7 @@ const http = require("http");
 
 export default function updateData(app) {
 
-    http.get('http://192.168.1.21:5000/', (res) => {
+    http.get('http://127.0.0.1:5000/', (res) => {
         const { statusCode } = res;
 
         let error;
