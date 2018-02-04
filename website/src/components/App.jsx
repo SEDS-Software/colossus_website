@@ -87,10 +87,13 @@ export default class App extends React.Component {
                     }
                 }
                 else if(k.startsWith("PT")){
-                    let totalVal = (val - .5) * 375;
-                    console.log(val);
-                    console.log(totalVal);
-                    pressureTranducer[k.substr(2)] = totalVal;
+                    if(val){
+                        pressureTranducer[k.substr(2)] = (val - .5) * 375;
+                    }
+                    else{
+                        pressureTranducer[k.substr(2)] = "unreadable";
+                    }
+
                 }
                 else if(k.startsWith("T") && k.length === 4){
                     thermocouples[k.substr(1)] = val;
