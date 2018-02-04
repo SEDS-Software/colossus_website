@@ -206,7 +206,7 @@ export default class App extends React.Component {
 
         let Body;
 
-        if(!(Object.keys(this.state).length > 3)){
+        if(!(Object.keys(this.state).length > 4)){
             Body = App.Loading;
         }
         else{
