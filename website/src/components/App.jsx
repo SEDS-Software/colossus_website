@@ -239,12 +239,14 @@ export default class App extends React.Component {
     }
 
     static autoScroll(){
-        let scrollBox = document.getElementById("scrollBox");
-        let selectedThing = document.getElementById("selectedThing");
+        if(!(Object.keys(this.state).length > 4)){
+            let scrollBox = document.getElementById("scrollBox");
+            let selectedThing = document.getElementById("selectedThing");
 
-        let halfHeight = parseInt(window.getComputedStyle(scrollBox).height.substr(0, window.getComputedStyle(scrollBox).length - 2))/2;
-        let fromTop = selectedThing.offsetTop;
-        scrollBox.scrollTo(0, fromTop - halfHeight - 45);
+            let halfHeight = parseInt(window.getComputedStyle(scrollBox).height.substr(0, window.getComputedStyle(scrollBox).length - 2))/2;
+            let fromTop = selectedThing.offsetTop;
+            scrollBox.scrollTo(0, fromTop - halfHeight - 45);
+        }
     }
 
 
