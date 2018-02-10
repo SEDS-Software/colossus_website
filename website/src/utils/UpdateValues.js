@@ -2,7 +2,7 @@ export default function updateData(app) {
 
     console.log("ran");
 
-    let socket = new WebSocket("ws://127.0.0.1:8080");
+    let socket = new WebSocket("ws://128.54.233.64:8080");
 
     socket.onopen = function(event) {
     };
