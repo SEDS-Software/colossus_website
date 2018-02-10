@@ -250,7 +250,8 @@ export default class App extends React.Component {
     }
 
     static autoScroll(){
-        if(!(Object.keys(this.state).length > 4)){
+        if((document.getElementById("selectedThing"))){
+            console.log("running");
             let scrollBox = document.getElementById("scrollBox");
             let selectedThing = document.getElementById("selectedThing");
 
