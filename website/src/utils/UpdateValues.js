@@ -2,7 +2,7 @@ export default function updateData(app) {
 
     console.log("ran");
 
-    let socket = new WebSocket("ws://128.54.233.64:8080");
+    let socket = new WebSocket("ws://192.168.1.177:8080");
 
     socket.onopen = function(event) {
     };
@@ -12,7 +12,7 @@ export default function updateData(app) {
     socket.onmessage = function(event) {
         let jsonObject = JSON.parse(event.data);
         try{
-            app.setState(JSON.parse(event.data));
+            app.setState(jsonObject);
         }catch(e){
             console.log(e);
         }
