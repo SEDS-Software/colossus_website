@@ -34,7 +34,9 @@ export default class App extends React.Component {
 
         this.updateValues = this.updateValues.bind(this);
 
-        setInterval(() => this.updateValues(), this.state.updateRate);
+        // setInterval(() => this.updateValues(), this.state.updateRate);
+
+        this.updateValues();
 
         this.Loaded = this.Loaded.bind(this);
         App.autoScroll = App.autoScroll.bind(this);
