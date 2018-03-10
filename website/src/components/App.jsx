@@ -34,7 +34,9 @@ export default class App extends React.Component {
 
         this.updateValues = this.updateValues.bind(this);
 
-        setInterval(() => this.updateValues(), this.state.updateRate);
+        // setInterval(() => this.updateValues(), this.state.updateRate);
+
+        this.updateValues();
 
         this.Loaded = this.Loaded.bind(this);
         App.autoScroll = App.autoScroll.bind(this);
@@ -216,6 +218,7 @@ export default class App extends React.Component {
         let Body;
 
         if(!(Object.keys(this.state).length > 4)){
+            console.log(Object.keys(this.state).length > 4);
             Body = App.Loading;
         }
         else{
@@ -248,7 +251,8 @@ export default class App extends React.Component {
     }
 
     static autoScroll(){
-        if(!(Object.keys(this.state).length > 4)){
+        if((document.getElementById("selectedThing"))){
+            console.log("running");
             let scrollBox = document.getElementById("scrollBox");
             let selectedThing = document.getElementById("selectedThing");
 

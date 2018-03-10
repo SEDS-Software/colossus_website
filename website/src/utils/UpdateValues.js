@@ -1,34 +1,26 @@
-const http = require("http");
-
 export default function updateData(app) {
 
-    http.get('http://192.168.1.21:5000/', (res) => {
-        const { statusCode } = res;
+    console.log("ran");
 
-        let error;
-        if (statusCode !== 200) {
-            error = new Error('Request Failed.\n' +
-                'Status Code: ${statusCode}\nIts possible the server hasnt started yet');
-        }
-        if (error) {
-            console.error(error.message);
-            // consume response data to free up memory
-            res.resume();
-            return;
-        }
+    let socket = new WebSocket("ws://192.168.1.177:8080");
 
-        res.setEncoding('utf8');
-        let rawData = '';
-        res.on('data', (chunk) => { rawData += chunk; });
-        res.on('end', () => {
-            try {
-                app.setState(JSON.parse(rawData));
-            } catch (e) {
-                console.error(e.message);
-            }
-        });
-    }).on('error', (e) => {
-        console.error(`Got error: ${e.message}`);
+    socket.onopen = function(event) {
+    };
+
+
+    // Handle messages sent by the server.
+    socket.onmessage = function(event) {
+        let jsonObject = JSON.parse(event.data);
+        try{
+            app.setState(jsonObject);
+        }catch(e){
+            console.log(e);
+        }
+    };
+
+
+    //errors out on the server without this
+    window.addEventListener('beforeunload', function () {
+        socket.close();
     });
-
 }
