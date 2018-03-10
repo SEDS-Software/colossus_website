@@ -77,28 +77,28 @@ export default class App extends React.Component {
         for (let k in this.state) {
             if (this.state.hasOwnProperty(k)) {
                 let val = this.state[k];
-                if (k.startsWith('Val')) {
+                if (k.startsWith('LS-') || k.startsWith("PBV")) {
                     if (val === "0") {
-                        valves[k.substr(3)] = "closed"
+                        valves[k] = "closed"
                     }
                     else if(val === "1") {
-                        valves[k.substr(3)] = "opened"
+                        valves[k] = "opened"
                     }
                     else{
-                        valves[k.substr(3)] = "unreadable"
+                        valves[k] = "unreadable"
                     }
                 }
                 else if(k.startsWith("PT")){
                     if(val){
-                        pressureTranducer[k.substr(2)] = (val - .5) * 375;
+                        pressureTranducer[k] = (val - .5) * 375;
                     }
                     else{
-                        pressureTranducer[k.substr(2)] = "unreadable";
+                        pressureTranducer[k] = "unreadable";
                     }
 
                 }
-                else if(k.startsWith("T") && k.length === 4){
-                    thermocouples[k.substr(1)] = val;
+                else if(k.startsWith("T-")){
+                    thermocouples[k] = val;
                 }
                 else if(k.startsWith("W")){
                     if("1" === val){
@@ -182,7 +182,7 @@ export default class App extends React.Component {
                 <div className="col-md-8 col-xs-12">
                     <h3>Thrust over past minute</h3>
                     <Thrust doneOnce={this.state.doneOnce} obj={this} updateRate={this.state.updateRate}
-                            newData={this.state.Thrust}/>
+                            newData={this.state.THRUST_1}/>
                 </div>
                 <div className="col-md-4 col-cs-12">
                     <BarGraphs doneOnce={this.state.doneOnce}
