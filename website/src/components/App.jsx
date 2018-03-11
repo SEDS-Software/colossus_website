@@ -28,7 +28,7 @@ export default class App extends React.Component {
         this.state = {
             autoScroll:true,
             doneOnce: false,
-            updateRate: 2000,
+            updateRate: 666,
             ecSteps: ["Count Down", "E-match Ignition", "PBV 253, 353 OPEN (wait for limit switch confirmation)", "Firing is happening now. Wait a couple of seconds", "Check for load cell on the engine reaches 0", "Check load cell on both tanks reaches 0", "Wait 1 second", "PBV 251, 351 OPEN (wait for limit switch confirmation)", "PBV 250, 350, 253, 353 CLOSE (wait for limit switch confirmation)", "PBV 150, 151 OPEN (wait for limit switch confirmation)", "Waiting"],
         };
 
@@ -78,22 +78,27 @@ export default class App extends React.Component {
             if (this.state.hasOwnProperty(k)) {
                 let val = this.state[k];
                 if (k.startsWith('LS-') || k.startsWith("PBV")) {
-                    if (val === "0") {
+                    if (val === 0) {
                         valves[k] = "closed"
                     }
-                    else if(val === "1") {
+                    else if(val === 1) {
                         valves[k] = "opened"
                     }
                     else{
-                        valves[k] = "unreadable"
+                        valves[k] = val
                     }
                 }
-                else if(k.startsWith("PT")){
+                else if(k.startsWith("PT") && !k.includes("OLD")){
                     if(val){
-                        pressureTranducer[k] = (val - .5) * 375;
+			if(k.includes("120") || k.includes("121") || k.includes("420")){
+                            pressureTranducer[k] = (val) * 700;
+			}
+			else{
+                            pressureTranducer[k] = (val - .5) * 375;
+			}
                     }
                     else{
-                        pressureTranducer[k] = "unreadable";
+                        pressureTranducer[k] = val;
                     }
 
                 }
