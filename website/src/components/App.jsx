@@ -113,32 +113,12 @@ export default class App extends React.Component {
                 else if(k.startsWith("T-")){
                     thermocouples[k] = val;
                 }
-
-		//Warnings, not sure if these are ever actually going to be written out like this
-                else if(k.startsWith("W")){
-                    if("1" === val){
-                        warnings.push(<p key={k}>{k}: {this.warningMsgs[k]}</p>);
-                    }
-                }
-
-		//Errors, not sure if these are ever actually going to be written out like this
-                else if(k.startsWith("E")){
-                    if("1" === val){
-                        errors.push(<p key={k}>{k}: {this.errorMsgs[k]}</p>);
-                    }
-                }
                 else if(k === "ecSteps" || k === "doneOnce" || k === "updateRate" || k === "SeqStage" || k === "autoScroll"){}
                 else {
                     dataDump[k] = val;
                 }
 
             }
-        }
-        if(warnings.length === 0){
-            warnings.push(<p key={0}>No Warnings</p>)
-        }
-        if(errors.length === 0){
-            errors.push(<p key={0}>No Errors</p>)
         }
 
         let dump = [{},{},{}];
@@ -152,39 +132,9 @@ export default class App extends React.Component {
 
         let DataDump = this.DataDump;
 
-        let sequence = [];
-
-        for(let i = 0; i < this.state.ecSteps.length; i ++){
-            if(String(i) === String(this.state.SeqStage)){
-                sequence.push(<h3 id="selectedThing" key={i} style={{color: "red"}}>{i}. {this.state.ecSteps[i]}</h3>);
-            }
-            else{
-                sequence.push(<h3 key={i} style={{color: "black"}}>{i}. {this.state.ecSteps[i]}</h3>);
-            }
-
-
-        }
-
-
 
         return (
             <div>
-                <div style={{textAlign:"center"}} className="col-xs-12">
-                    <h3>Current Execution Cue Step:</h3>
-                    <div id="scrollBox">
-                        {sequence}
-                    </div>
-                    <button className="dropbtn" style={{width:"auto", marginTop:"9px"}} onClick={this.switchAutoScroll}>{this.state.autoScroll ? "Turn off AutoScroll" : "Turn on AutoScroll"}</button>
-                </div>
-                <div className="col-md-6 col-xs-12">
-                    <h3>WARNINGS:</h3><h4 style={{color: "orange"}}>
-                    {warnings}</h4>
-                </div>
-                <div className="col-md-6 col-xs-12">
-                    <h3>ERRORS:</h3><h4
-                    style={{color: "orange"}}>
-                    {errors}</h4>
-                </div>
                 <div className="col-xs-12" style={{paddingTop:"30px", paddingBottom:"30px"}}>
                     <div className="col-md-4 col-xs-12">
                         <Dropdown id="valve" name="Valves" items={valves}/>
