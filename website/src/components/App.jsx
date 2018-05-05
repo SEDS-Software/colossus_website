@@ -5,6 +5,8 @@ import BarGraphs from "./BarGraphs.jsx"
 import Dropdown from "./Dropdown";
 
 
+//ALL MAPPING IS AROUND LINE 77, MODIFY THAT TO REMAP
+
 export default class App extends React.Component {
 
     constructor(props) {
@@ -33,8 +35,6 @@ export default class App extends React.Component {
         };
 
         this.updateValues = this.updateValues.bind(this);
-
-        // setInterval(() => this.updateValues(), this.state.updateRate);
 
         this.updateValues();
 
@@ -77,6 +77,8 @@ export default class App extends React.Component {
         for (let k in this.state) {
             if (this.state.hasOwnProperty(k)) {
                 let val = this.state[k];
+
+		//the valves have 2 states
                 if (k.startsWith('LS-') || k.startsWith("PBV")) {
                     if (val === 0) {
                         valves[k] = "closed"
@@ -88,8 +90,12 @@ export default class App extends React.Component {
                         valves[k] = val
                     }
                 }
+
+		//the pressure transducers have to be mapped from voltage to pressure
                 else if(k.startsWith("PT") && !k.includes("OLD")){
                     if(val){
+
+			//these three have different mappings
 			if(k.includes("120") || k.includes("121") || k.includes("420")){
                             pressureTranducer[k] = (val) * 700;
 			}
@@ -102,14 +108,20 @@ export default class App extends React.Component {
                     }
 
                 }
+
+		//Thermocouples
                 else if(k.startsWith("T-")){
                     thermocouples[k] = val;
                 }
+
+		//Warnings, not sure if these are ever actually going to be written out like this
                 else if(k.startsWith("W")){
                     if("1" === val){
                         warnings.push(<p key={k}>{k}: {this.warningMsgs[k]}</p>);
                     }
                 }
+
+		//Errors, not sure if these are ever actually going to be written out like this
                 else if(k.startsWith("E")){
                     if("1" === val){
                         errors.push(<p key={k}>{k}: {this.errorMsgs[k]}</p>);
