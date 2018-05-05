@@ -243,7 +243,7 @@ export default class App extends React.Component {
         }
 
         return (
-            <div className="main">
+            <div className="main" style={{marginBottom:"50px"}}>
                 <div className="container">
                     <div className="col-xs-12" style={{paddingTop:"15px"}}>
                         <div className="col-md-6 col-md-offset-3 col-xs-10 col-xs-offset-1"><img style={{width:"100%", maxWidth:"100%"}} src="/colossus.png"/></div>
