@@ -47,8 +47,6 @@ h2, h3, h4{
   color:black;
 }
 
-.dropdown-content a:hover {background-color: #ddd}
-
 .dropdown:hover .dropdown-content {
   display: block !important;
 }

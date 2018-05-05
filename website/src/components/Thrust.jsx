@@ -13,7 +13,7 @@ export default class Thrust extends React.Component {
                 data: {
                     labels: [],
                     datasets: [{
-                        label: "Thrust",
+                        label: "Thrust in lbs (may be mapped wrong)",
                         data: [],
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
@@ -43,8 +43,7 @@ export default class Thrust extends React.Component {
         if(this.props.doneOnce){
             let d = new Date();
             let n = d.getSeconds();
-            let m = d.getMinutes();
-            let label = m + ":" + n;
+            let label = n;
 
             let removeItem = false;
             if(this.state.chart.data.labels.length > 60000 / this.props.updateRate){
@@ -57,7 +56,7 @@ export default class Thrust extends React.Component {
                 this.state.chart.data.labels.splice(0, 1);
             }
             this.state.chart.data.datasets.forEach((dataset) => {
-                dataset.data.push(this.props.newData);
+                dataset.data.push(this.props.newData * 1000 / 2.5);
                 if(removeItem) {
                     dataset.data.splice(0, 1);
                 }
